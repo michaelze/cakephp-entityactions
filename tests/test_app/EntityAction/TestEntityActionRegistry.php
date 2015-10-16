@@ -15,7 +15,7 @@ use EntityActions\EntityAction\EntityAction;
 class TestEntityActionRegistry extends EntityActionRegistry {
     public function initialize() {
         return [
-            Entity::class => new Collection([
+            'Cake\ORM\Entity' => new Collection([
                 new TestEntityAction(),
                 new EntityAction('label1', 'class1', function ($e) {
                     return ['controller' => 'Test', 'action' => 'test1'];

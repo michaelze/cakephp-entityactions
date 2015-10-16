@@ -33,7 +33,7 @@ class EntityActionManager {
                 throw new MissingEntityActionRegistryException(sprintf('Cannot locate entity action registry named "%s".', $registry));
             }
             static::$entityActionRegistry = new $className();
-        } else if (is_a($registry, IEntityActionRegistry::class)) {
+        } else if (is_a($registry, 'EntityActions\Manager\IEntityActionRegistry')) {
             static::$entityActionRegistry = $registry;
         } else {
             $registryString = is_object($registry) ? get_class($registry) : (string) $registry;

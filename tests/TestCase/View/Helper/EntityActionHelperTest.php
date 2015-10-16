@@ -9,7 +9,6 @@ use Cake\View\View;
 use EntityActions\Manager\EntityActionManager;
 use EntityActions\View\Helper\EntityActionHelper;
 
-use TestApp\EntityAction\TestEntityActionRegistry;
 use TestApp\Model\Entity\EntityWithoutActions;
 
 /**
@@ -24,7 +23,7 @@ class EntityActionHelperTest extends TestCase {
 
     public static function setUpBeforeClass() {
         parent::setUpBeforeClass();
-        EntityActionManager::registry(TestEntityActionRegistry::class);
+        EntityActionManager::registry('TestApp\EntityAction\TestEntityActionRegistry');
     }
 
     public function setUp() {

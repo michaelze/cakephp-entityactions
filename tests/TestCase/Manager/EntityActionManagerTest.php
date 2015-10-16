@@ -14,13 +14,13 @@ use TestApp\EntityAction\TestEntityActionRegistry;
 class EntityActionManagerTest extends TestCase {
 
     public function testSetRegistryByString() {
-        EntityActionManager::registry(TestEntityActionRegistry::class);
-        $this->assertNotEmpty(EntityActionManager::get(Entity::class));
+        EntityActionManager::registry('TestEntityActionRegistry');
+        $this->assertNotEmpty(EntityActionManager::get('Cake\ORM\Entity'));
     }
 
     public function testSetRegistryObject() {
         EntityActionManager::registry(new TestEntityActionRegistry());
-        $this->assertNotEmpty(EntityActionManager::get(Entity::class));
+        $this->assertNotEmpty(EntityActionManager::get('Cake\ORM\Entity'));
     }
 
     /**
@@ -38,17 +38,17 @@ class EntityActionManagerTest extends TestCase {
     }
 
     public function testGetEntityActionsByEntityClassName() {
-        EntityActionManager::registry(TestEntityActionRegistry::class);
-        $this->assertCount(4, EntityActionManager::get(Entity::class));
+        EntityActionManager::registry('TestApp\EntityAction\TestEntityActionRegistry');
+        $this->assertCount(4, EntityActionManager::get('Cake\ORM\Entity'));
     }
 
     public function testGetEntityActionsByEntityObject() {
-        EntityActionManager::registry(TestEntityActionRegistry::class);
+        EntityActionManager::registry('TestApp\EntityAction\TestEntityActionRegistry');
         $this->assertCount(4, EntityActionManager::get(new Entity()));
     }
 
     public function testGetNoEntityActions() {
-        EntityActionManager::registry(TestEntityActionRegistry::class);
+        EntityActionManager::registry('TestApp\EntityAction\TestEntityActionRegistry');
         $this->assertCount(0, EntityActionManager::get('EntityThatDoesNotExist'));
     }
 
@@ -56,7 +56,7 @@ class EntityActionManagerTest extends TestCase {
      * @expectedException EntityActions\Exception\NotAnEntityException
      */
     public function testGetThrowsExceptionForObjectNotBeingAnEntity() {
-        EntityActionManager::registry(TestEntityActionRegistry::class);
+        EntityActionManager::registry('TestApp\EntityAction\TestEntityActionRegistry');
         EntityActionManager::get(new \stdClass());
     }
 
@@ -66,6 +66,6 @@ class EntityActionManagerTest extends TestCase {
      * @expectedException EntityActions\Exception\MissingEntityActionRegistryException
      */
     public function testGetThrowsExceptionWhenRegistryIsNotSet() {
-        EntityActionManager::get(Entity::class);
+        EntityActionManager::get('Cake\ORM\Entity');
     }
 }

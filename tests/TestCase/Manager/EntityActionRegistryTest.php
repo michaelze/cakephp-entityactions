@@ -1,7 +1,6 @@
 <?php
 namespace EntityActions\Test\Manager;
 
-use Cake\Collection\Collection;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 
@@ -14,7 +13,7 @@ class EntityActionRegistryTest extends TestCase {
 
     public function testGetWithEntityClassName() {
         $entityActionRegistry = new TestEntityActionRegistry();
-        $entityActionRegistry->getEntityActions(Entity::class);
+        $entityActionRegistry->getEntityActions('Cake\ORM\Entity');
     }
 
     public function testGetWithEntityObject() {
@@ -26,7 +25,7 @@ class EntityActionRegistryTest extends TestCase {
         $entityActionRegistry = new TestEntityActionRegistry();
         $entityActions = $entityActionRegistry->getEntityActions('EntityClassThatDoesNotExist');
         $this->assertCount(0, $entityActions);
-        $this->assertInstanceOf(Collection::class, $entityActions);
+        $this->assertInstanceOf('Cake\Collection\Collection', $entityActions);
     }
 
     /**
