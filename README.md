@@ -1,6 +1,7 @@
 # EntityActions plugin for CakePHP
 
 [![Build Status](https://travis-ci.org/michaelze/cakephp-entityactions.svg)](https://travis-ci.org/michaelze/cakephp-entityactions)
+[![codecov.io](https://codecov.io/github/michaelze/cakephp-entityactions/coverage.svg?branch=master)](https://codecov.io/github/michaelze/cakephp-entityactions?branch=master)
 
 ## Installation
 
