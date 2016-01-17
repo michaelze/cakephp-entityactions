@@ -43,7 +43,7 @@ class EntityActionHelper extends Helper {
         $listItems = '';
         foreach ($entityActions as $entityAction) {
             $userId = $this->request->session()->read('Auth.User.id');
-            $authorized = $entityAction->isAuthorized($entity, $userId);
+            $authorized = $entityAction->isAuthorized($entity, $userId, $this->request);
             $enabled = $entityAction->isEnabled($entity);
             if ((!$authorized && !$options['notAuthorized']) || (!$enabled && !$options['disabled'])) {
                 continue;

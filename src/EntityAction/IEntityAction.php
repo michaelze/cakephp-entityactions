@@ -1,6 +1,7 @@
 <?php
 namespace EntityActions\EntityAction;
 
+use Cake\Network\Request;
 use Cake\ORM\Entity;
 
 /**
@@ -34,9 +35,11 @@ interface IEntityAction {
      *          The entity context that is used in order to determine whether the user with the provided id is authorized.
      * @param string $userId
      *          The id of the user to check for authorization.
+     * @param Request $request
+     *          The request currently handled by the application.
      * @return boolean Returns true, if the user is authorized, false otherwise.
      */
-    public function isAuthorized(Entity $entity, $userId);
+    public function isAuthorized(Entity $entity, $userId, Request $request);
 
     /**
      * Call this method in order to determine whether this action is currently enabled or no.

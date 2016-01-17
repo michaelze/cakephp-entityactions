@@ -1,6 +1,7 @@
 <?php
 namespace EntityActions\Test\EntityAction;
 
+use Cake\Network\Request;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 
@@ -18,7 +19,7 @@ class EntityActionTest extends TestCase {
         $this->assertEquals('label', $entityAction->getLabel());
         $this->assertEquals('class', $entityAction->getClass());
         $this->assertEquals(['controller' => 'Test', 'action' => 'test'], $entityAction->getUrl(new Entity()));
-        $this->assertTrue($entityAction->isAuthorized(new Entity(), 'someUserId'));
+        $this->assertTrue($entityAction->isAuthorized(new Entity(), 'someUserId', new Request()));
         $this->assertTrue($entityAction->isEnabled(new Entity()));
     }
 
@@ -32,8 +33,8 @@ class EntityActionTest extends TestCase {
                 return false;
             }
         });
-        $this->assertTrue($entityAction->isAuthorized(new Entity(), 'authorized'));
-        $this->assertFalse($entityAction->isAuthorized(new Entity(), 'unauthorized'));
+        $this->assertTrue($entityAction->isAuthorized(new Entity(), 'authorized', new Request()));
+        $this->assertFalse($entityAction->isAuthorized(new Entity(), 'unauthorized', new Request()));
     }
 
     public function testSpecialEnabledCallable() {
