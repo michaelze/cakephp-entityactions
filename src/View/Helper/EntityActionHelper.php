@@ -5,6 +5,8 @@ use Cake\View\Helper;
 use Cake\ORM\Entity;
 
 use EntityActions\Manager\EntityActionManager;
+use EntityActions\EntityAction\EntityActionProcessor;
+use EntityActions\EntityAction\IProcessedEntityAction;
 
 /**
  * This helper provides functionality to output entity actions to the view.
@@ -13,6 +15,12 @@ use EntityActions\Manager\EntityActionManager;
 class EntityActionHelper extends Helper {
 
     public $helpers = ['Html'];
+
+    private $entityActionProcessor;
+
+    public function initialize(array $config) {
+        $this->entityActionProcessor = new EntityActionProcessor();
+    }
 
     /**
      * Returns all the entity actions for the provided entity object. The output will consist of an <ul> containing separate <li>'s for each entity
@@ -42,14 +50,14 @@ class EntityActionHelper extends Helper {
         $entityActions = EntityActionManager::get($entity);
         $listItems = '';
         foreach ($entityActions as $entityAction) {
-            $userId = $this->request->session()->read('Auth.User.id');
-            $authorized = $entityAction->isAuthorized($entity, $userId, $this->request);
-            $enabled = $entityAction->isEnabled($entity);
+            $processedEntityAction = $this->entityActionProcessor->process($entityAction, $entity, $this->request);
+            $authorized = $processedEntityAction->isAuthorized();
+            $enabled = $processedEntityAction->isEnabled();
             if ((!$authorized && !$options['notAuthorized']) || (!$enabled && !$options['disabled'])) {
                 continue;
             }
-            $listItemClass = trim(sprintf('entity-action %s %s', $entityAction->getClass(), $this->getAdditionalClasses($authorized, $enabled)));
-            $link = $this->Html->link($entityAction->getLabel(), $entityAction->getUrl($entity));
+            $listItemClass = trim(sprintf('entity-action %s %s', $processedEntityAction->getClass(), $this->getAdditionalClasses($authorized, $enabled)));
+            $link = $this->Html->link($entityAction->getLabel(), $processedEntityAction->getUrl($entity));
             $listItems .= $this->Html->tag('li', $link, ['class' => $listItemClass]);
         }
         $output = empty($listItems) ? '' : $this->Html->tag('ul', $listItems, ['class' => 'entity-actions']);
@@ -61,6 +69,20 @@ class EntityActionHelper extends Helper {
             $output = $this->Html->div($divClass, $output);
         }
         return $output;
+    }
+
+    /**
+     * Returns a single processed entity action for the provided entity and entity action class.
+     * @param Entity $entity
+     *          The entity to retrieve the processed entity action for.
+     * @param string $entityActionClass
+     *          The class string of the entity action you wish to retrieve.
+     * @return IProcessedEntityAction
+     *          Returns the processed entity action for the provided entity and entity action class.
+     */
+    public function getEntityAction(Entity $entity, string $entityActionClass) : IProcessedEntityAction {
+        $entityAction = EntityActionManager::getEntityAction($entity, $entityActionClass);
+        return $this->entityActionProcessor->process($entityAction, $entity, $this->request);
     }
 
     private function getAdditionalClasses($authorized, $enabled) {

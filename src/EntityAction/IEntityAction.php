@@ -42,7 +42,7 @@ interface IEntityAction {
     public function isAuthorized(Entity $entity, $userId, Request $request);
 
     /**
-     * Call this method in order to determine whether this action is currently enabled or no.
+     * Call this method in order to determine whether this action is currently enabled or not.
      * @param Entity $entity
      *          The entity context that is used in order to determine whether the entity action is enabled.
      * @return boolean Returns true, if this entity action is enabled, false otherwise.

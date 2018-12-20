@@ -59,4 +59,11 @@ class EntityActionManager {
         return static::$entityActionRegistry->getEntityActions($entityClass);
     }
 
+    public static function getEntityAction($entityClass, $entityActionClass) {
+        $entityActions = static::get($entityClass);
+        return $entityActions->filter(function ($entityAction) use ($entityActionClass) {
+            return get_class($entityAction) == $entityActionClass;
+        })->first();
+    }
+
 }
