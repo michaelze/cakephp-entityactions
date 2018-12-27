@@ -7,6 +7,10 @@ use Cake\Routing\Router;
 
 require_once 'vendor/autoload.php';
 
+error_reporting(E_ALL & ~E_USER_DEPRECATED);
+
+require_once 'vendor/cakephp/cakephp/src/basics.php';
+
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -37,8 +41,6 @@ define('CONFIG', TEST_APP . 'config' . DS);
 @mkdir(CACHE . 'views');
 @mkdir(CACHE . 'models');
 //@codingStandardsIgnoreEnd
-
-//require_once CORE_PATH . 'config/bootstrap.php';
 
 date_default_timezone_set('UTC');
 mb_internal_encoding('UTF-8');
@@ -101,7 +103,7 @@ Log::setConfig([
     ]
 ]);
 
-Carbon\Carbon::setTestNow(Carbon\Carbon::now());
+Cake\Chronos\Chronos::setTestNow(Cake\Chronos\Chronos::now());
 
 Router::reload();
 

@@ -13,12 +13,14 @@ class EntityActionRegistryTest extends TestCase {
 
     public function testGetWithEntityClassName() {
         $entityActionRegistry = new TestEntityActionRegistry();
-        $entityActionRegistry->getEntityActions('Cake\ORM\Entity');
+        $entityActions = $entityActionRegistry->getEntityActions('Cake\ORM\Entity');
+        $this->assertCount(4, $entityActions);
     }
 
     public function testGetWithEntityObject() {
         $entityActionRegistry = new TestEntityActionRegistry();
-        $entityActionRegistry->getEntityActions(new Entity());
+        $entityActions = $entityActionRegistry->getEntityActions(new Entity());
+        $this->assertCount(4, $entityActions);
     }
 
     public function testGetReturnsEmptyCollectionWithInvalidClassName() {
