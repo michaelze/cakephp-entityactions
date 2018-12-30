@@ -24,7 +24,7 @@ class EntityActionProcessor {
         $label = $entityAction->getLabel();
         $class = $entityAction->getClass();
         $url = $entityAction->getUrl($entity);
-        $authorized = $entityAction->isAuthorized($entity, $request->getSession()->read('Auth.user.id'), $request);
+        $authorized = $entityAction->isAuthorized($entity, $request->getSession()->read('Auth.User.id'), $request);
         $enabled = $entityAction->isEnabled($entity);
         return new ProcessedEntityAction($label, $class, $url, $authorized, $enabled);
     }
