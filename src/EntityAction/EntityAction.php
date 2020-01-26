@@ -79,4 +79,7 @@ class EntityAction implements IEntityAction {
         return $enabled($entity);
     }
 
+    public function getViewHints() : array {
+        return [];
+    }
 }

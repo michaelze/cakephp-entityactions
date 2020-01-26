@@ -6,6 +6,7 @@ use Cake\ORM\Entity;
 
 use EntityActions\Manager\EntityActionManager;
 use EntityActions\EntityAction\EntityActionProcessor;
+use EntityActions\EntityAction\EntityActionViewHint;
 use EntityActions\EntityAction\IProcessedEntityAction;
 
 /**
@@ -50,7 +51,11 @@ class EntityActionHelper extends Helper {
         $entityActions = EntityActionManager::get($entity);
         $listItems = '';
         foreach ($entityActions as $entityAction) {
-            $processedEntityAction = $this->entityActionProcessor->process($entityAction, $entity, $this->request);
+            $viewHints = $entityAction->getViewHints();
+            if (in_array(EntityActionViewHint::HIDE_FROM_ACTION_LIST, $viewHints)) {
+                continue;
+            }
+            $processedEntityAction = $this->entityActionProcessor->process($entityAction, $entity, $this->getView()->getRequest());
             $authorized = $processedEntityAction->isAuthorized();
             $enabled = $processedEntityAction->isEnabled();
             if ((!$authorized && !$options['notAuthorized']) || (!$enabled && !$options['disabled'])) {
@@ -82,7 +87,7 @@ class EntityActionHelper extends Helper {
      */
     public function getEntityAction(Entity $entity, string $entityActionClass) : IProcessedEntityAction {
         $entityAction = EntityActionManager::getEntityAction($entity, $entityActionClass);
-        return $this->entityActionProcessor->process($entityAction, $entity, $this->request);
+        return $this->entityActionProcessor->process($entityAction, $entity, $this->getView()->getRequest());
     }
 
     private function getAdditionalClasses($authorized, $enabled) {

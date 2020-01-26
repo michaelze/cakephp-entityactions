@@ -48,4 +48,6 @@ interface IEntityAction {
      * @return boolean Returns true, if this entity action is enabled, false otherwise.
      */
     public function isEnabled(Entity $entity);
+
+    public function getViewHints() : array;
 }
