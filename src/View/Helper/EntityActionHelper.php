@@ -46,7 +46,9 @@ class EntityActionHelper extends Helper {
         $options = array_merge([
             'div' => false,
             'notAuthorized' => false,
-            'disabled' => false
+            'disabled' => false,
+            'ul' => [],
+            'li' => []
         ], $options);
         $entityActions = EntityActionManager::get($entity);
         $listItems = '';
@@ -63,9 +65,9 @@ class EntityActionHelper extends Helper {
             }
             $listItemClass = trim(sprintf('entity-action %s %s', $processedEntityAction->getClass(), $this->getAdditionalClasses($authorized, $enabled)));
             $link = $this->Html->link($entityAction->getLabel(), $processedEntityAction->getUrl($entity));
-            $listItems .= $this->Html->tag('li', $link, ['class' => $listItemClass]);
+            $listItems .= $this->Html->tag('li', $link, $this->mergeOptions($listItemClass, $options['li']));
         }
-        $output = empty($listItems) ? '' : $this->Html->tag('ul', $listItems, ['class' => 'entity-actions']);
+        $output = empty($listItems) ? '' : $this->Html->tag('ul', $listItems, $this->mergeOptions('entity-actions', $options['ul']));
         if ($options['div']) {
             $divClass = 'entity-actions';
             if ($options['div'] !== true) {
@@ -99,5 +101,10 @@ class EntityActionHelper extends Helper {
             $additionalClasses[] = 'disabled';
         }
         return implode(' ', $additionalClasses);
+    }
+
+    private function mergeOptions(string $class, $options) : array {
+        $class .= array_key_exists('class', $options) ? ' ' . $options['class'] : '';
+        return array_merge($options, ['class' => $class]);
     }
 }
