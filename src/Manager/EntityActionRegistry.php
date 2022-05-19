@@ -2,7 +2,7 @@
 namespace EntityActions\Manager;
 
 use Cake\Collection\Collection;
-
+use Cake\ORM\Entity;
 use EntityActions\Exception\NotAnEntityException;
 
 /**
@@ -15,7 +15,7 @@ abstract class EntityActionRegistry implements IEntityActionRegistry {
     private $entityActions;
 
     public function getEntityActions($entityClass) {
-        if (is_a($entityClass, 'Cake\ORM\Entity')) {
+        if (is_a($entityClass, Entity::class)) {
             $entityClass = get_class($entityClass);
         }
         if (!is_string($entityClass)) {

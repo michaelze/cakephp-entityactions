@@ -49,5 +49,7 @@ interface IEntityAction {
      */
     public function isEnabled(Entity $entity);
 
+    public function getAssociations(): array;
+
     public function getViewHints() : array;
 }
