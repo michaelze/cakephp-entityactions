@@ -3,7 +3,7 @@ namespace EntityActions\Manager;
 
 use Cake\Collection\Collection;
 use Cake\Core\App;
-
+use EntityActions\EntityAction\IEntityAction;
 use EntityActions\Exception\MissingEntityActionRegistryException;
 use EntityActions\Exception\NotAnEntityException;
 
@@ -52,18 +52,19 @@ class EntityActionManager {
      * @throws NotAnEntityException
      *          This exception is thrown when the provided argument is neither an entity object nor the name of an entity class.
      */
-    public static function get($entityClass) {
+    public static function get($entityClass): Collection
+    {
         if (static::$entityActionRegistry == null) {
             throw new MissingEntityActionRegistryException('No entity action registry provided prior to accessing the entity action manager.');
         }
         return static::$entityActionRegistry->getEntityActions($entityClass);
     }
 
-    public static function getEntityAction($entityClass, $entityActionClass) {
+    public static function getEntityAction($entityClass, $entityActionClass): ?IEntityAction
+    {
         $entityActions = static::get($entityClass);
         return $entityActions->filter(function ($entityAction) use ($entityActionClass) {
             return get_class($entityAction) == $entityActionClass;
         })->first();
     }
-
 }

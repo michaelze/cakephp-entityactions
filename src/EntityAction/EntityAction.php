@@ -79,6 +79,15 @@ class EntityAction implements IEntityAction {
         return $enabled($entity);
     }
 
+    /**
+     * Returns associations that are required for authorized/enabled calculations for this entity action.
+     * @return array An array or required associations.
+     */
+    public function getAssociations(): array
+    {
+        return [];
+    }
+
     public function getViewHints() : array {
         return [];
     }
