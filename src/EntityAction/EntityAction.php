@@ -1,7 +1,7 @@
 <?php
 namespace EntityActions\EntityAction;
 
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Cake\ORM\Entity;
 
 /**
@@ -69,7 +69,7 @@ class EntityAction implements IEntityAction {
         return $url($entity);
     }
 
-    public function isAuthorized(Entity $entity, $userId, Request $request) {
+    public function isAuthorized(Entity $entity, $userId, ServerRequest $request) {
         $authorized = $this->authorized;
         return $authorized($this->getUrl($entity), $entity, $userId, $request);
     }

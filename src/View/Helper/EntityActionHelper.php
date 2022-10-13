@@ -19,7 +19,7 @@ class EntityActionHelper extends Helper {
 
     private $entityActionProcessor;
 
-    public function initialize(array $config) {
+    public function initialize(array $config): void {
         $this->entityActionProcessor = new EntityActionProcessor();
     }
 
