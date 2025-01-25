@@ -21,7 +21,7 @@ class ProcessedEntityAction implements IProcessedEntityAction {
     }
 
     public function getLabel() : string {
-        return $this->lable;
+        return $this->label;
     }
 
     public function getClass() : string {

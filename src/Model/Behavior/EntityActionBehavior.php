@@ -25,7 +25,7 @@ class EntityActionBehavior extends Behavior
      */
     public function findEntityActions(Query $query, array $options)
     {
-        $table = $this->getTable();
+        $table = $this->table();
         $entityClass = $table->getEntityClass();
         if (isset($options['entityAction'])) {
             $entityActionClass = $options['entityAction'];
