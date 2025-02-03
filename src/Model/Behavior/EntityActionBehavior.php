@@ -43,8 +43,10 @@ class EntityActionBehavior extends Behavior
                 return $entityAction->getAssociations();
             })
             ->reduce(function ($accumulated, $associations) {
-                return $accumulated + $associations;
+                return array_merge($accumulated, $associations);
             }, []);
+
+        $associations = array_unique($associations);
 
         if (!empty($associations)) {
             $query->contain($associations);
